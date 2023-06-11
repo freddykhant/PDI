@@ -1,0 +1,79 @@
+BEGIN FlightOperation
+
+    CONSTRUCTOR with PARAMETERS
+    IMPORT: int pFlightType, pArrivalDeparture, pDomesticIntl, pFlightOpsCount, pDate
+    EXPORT: None
+    ASSERTION: Created object with imported values
+    ALGORITHM:
+        flightType = pFlightType
+        arrivalDeparture = pArrivalDeparture
+        domesticIntl = pDomesticIntl
+        flightOpsCount = pFlightOpsCount
+        date = pDate
+
+    COPY CONSTRUCTOR initializes DEFAULT CLASS FIELDS
+    IMPORT: None
+    EXPORT: None
+    ASSERTION: Created object with default class fields
+    ALGORITHM:
+        flightType = a;
+        arrivalDeparture = b;
+        domesticIntl = c;
+        flightOpsCount = 0;
+        date = new Date(0, 0, 0);
+    
+    ACCESSOR: getFlightType
+    IMPORT: None
+    EXPORT: String flightType
+    ASSERTION: Returns the flight type
+        return flightType
+
+    ACCESSOR: getArrivalDeparture
+    IMPORT: None
+    EXPORT: String arrivalDeparture
+    ASSERTION: Returns if arrival or departure
+        return arrivalDeparture
+
+    ACCESSOR: getDomesticIntl
+    IMPORT: None
+    EXPORT: String domesticIntl
+    ASSERTION: Returns if domestic or internatonal 
+        return domesticIntl
+
+    ACCESSOR: getFlightOpsCount
+    IMPORT: None
+    EXPORT: int flightOpsCount
+    ASSERTION: Returns the flight operation count
+        return flightOpsCount
+
+    MUTATOR: setFlightType
+    IMPORT: String pFlightType
+    EXPORT: None
+    ASSERTION: Sets the flight type
+        flightType = pFlightType
+
+    MUTATOR: setArrivalDeparture
+    IMPORT: String pArrivalDeparture
+    EXPORT: None
+    ASSERTION: Sets if arrival or departure
+        arrivalDeparture = pArrivalDeparture
+
+    MUTATOR: setDomesticIntl
+    IMPORT: String pDomesticIntl
+    EXPORT: None
+    ASSERTION: Sets if domestic or International
+        domesticIntl = pDomesticIntl
+
+    MUTATOR: setFlightOpsCount
+    IMPORT: int pFlightOpsCount
+    EXPORT: None
+    ASSERTION: Sets the flight operations count
+        flightOpsCount = pFlightOpsCount
+
+    MUTATOR: setDate
+    IMPORT: int pDay, int pMonth, int pYear
+    EXPORT: None
+    ASSERTION: Sets the date
+        date.setDay(pDay)
+        date.setMonth(pMonth)
+        date.setYear(pYear)

@@ -1,0 +1,81 @@
+BEGIN Date
+
+    CONSTRUCTOR with PARAMETERS
+    IMPORT: int pDay, int pMonth, int pYear
+    EXPORT: None
+    ASSERTION: Created object with imported values
+    ALGORITHM:
+        day = pDay
+        month = pMonth
+        year = pYear
+
+    COPY CONSTRUCTOR 
+    IMPORT: Date pDate
+    EXPORT: None
+    ASSERTION: Created object with imported date object
+    ALGORITHM:
+        day = pDate.getDay()
+        month = pDate.getMonth()
+        year = pDate.getYear()
+
+    ACCESSOR: getDay
+    IMPORT: None
+    EXPORT: int day
+    ASSERTION: Returns the day
+        return day
+    
+    ACCESSOR: getMonth
+    IMPORT: None
+    EXPORT: int month
+    ASSERTION: Returns the month
+        return month
+
+    ACCESSOR: getYear
+    IMPORT: None
+    EXPORT: int year
+    ASSERTION: Returns the year
+        return year
+
+    MUTATOR: setDay
+    IMPORT: int pDay
+    EXPORT: None
+    ASSERTION: Sets the day
+        day = pDay
+
+    MUTATOR: setMonth
+    IMPORT: int pMonth
+    EXPORT: None
+    ASSERTION: Sets the month
+        month = pMonth
+
+    MUTATOR: setYear
+    IMPORT: int pYear
+    EXPORT: None
+    ASSERTION: Sets the year
+        year = pYear
+
+    ACCESSOR: toString
+    IMPORT: None
+    EXPORT: String dateString 
+    ASSERTION: Returns the string representation of the object
+        dateString = "Day is " + day + "Month is " + month + "Year is " + year
+        return dateString
+
+    METHOD: equals
+    IMPORT: Object inObject
+    EXPORT: boolean isEqual
+    ASSERTION: Returns true if the class fields of one Date object is equal to another, false otherwise
+    ALGORITHM:
+        boolean isEqual = false
+        Date inDate = null
+        IF inObject instanceof Date
+            inDate = (Date)inObject
+            IF day.equals(inDate.getDay())
+                IF month.equals(inDate.getMonth())
+                    IF year.equals(inDate.getYear())
+                        isEqual = true
+                    ENDIF
+                ENDIF
+            ENDIF
+        ENDIF
+        return isEqual

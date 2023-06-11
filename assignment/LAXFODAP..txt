@@ -1,0 +1,174 @@
+BEGIN LAXFODAP
+    BEGIN MAIN
+        boolean shouldLoop = true
+        ARRAY flights = READ FILE "LaxData.csv"
+        total -> COUNT total(flights)
+
+        WHILE shouldLoop
+            PRINT Welcome to LAXFODAP Menu...
+            option -> INPUT "Enter choice: "
+
+            SWITCH option 
+                
+                CASE 1:
+                    arrival -> COUNT arrival flights 
+                    departure -> COUNT departure flights 
+                    depRatio -> PERCENT departure/total 
+                    arrRatio -> PERCENT arrival/total 
+                    PRINT "Departure Flights: ", departure/total, depRatio
+                    PRINT "Arrival Flights: ", arrival/total, arrRatio
+
+                CASE 2:
+                    domestic -> COUNT domestic flights
+                    intl -> COUNT intl flights
+                    domRatio -> PERCENT domestic/total 
+                    intlRatio -> PERCENT intl/total
+                    PRINT "Domestic Flights: ", domestic/total, domRatio
+                    PRINT "International Flights: ", intl/total, intlRatio
+
+                CASE 3:
+                    charter -> COUNT charter flights
+                    scheduled -> COUNT scheduled flights
+                    chartRatio -> PERCENT charter/total
+                    schedRatio -> PERCENT scheduled/total
+                    PRINT "Charter Flights: ", charter/total, chartRatio
+                    PRINT "Scheduled Flights: ", scheduled/total, schedRatio
+
+                CASE 4:
+                    day -> INPUT "Enter a day: "
+                    month -> INPUT "Enter a month: "
+                    year -> INPUT "Enter a year: "
+
+                    FOR i = 0 TO flights.length CHANGEBY 1
+                        IF flights[i].getDay == day && flights[i].getMonth() == month && flights[i].getYear() == year
+                            INCREMENT:
+                                departure
+                                arrival
+                                domestic
+                                intl
+                                charter
+                                scheduled
+                        ENDIF
+                    ENDFOR
+
+                    depRatio -> PERCENT departure/total
+                    arrRatio -> PERCENT arrival/total 
+                    domRatio -> PERCENT domestic/total 
+                    intlRatio -> PERCENT intl/total
+                    chartRatio -> PERCENT charter/total
+                    schedRatio -> PERCENT scheduled/total
+
+                DISPLAY FLIGHT STATISTICS
+
+                CASE 5:
+                    intlScheduledDepartures -> 0
+                    FOR int i = 0 to flights.length CHANGEBY 1
+                        IF flights[i].getDomesticIntl == "International"
+                            IF flights[i].getFlightType == "Scheduled"
+                                IF flights[i].getArrivalDeparture == "Departure"
+                                    INCREMENT intlScheduledDepartures
+                                ENDIF
+                            ENDIF
+                        ENDIF
+                    ENDFOR
+                    
+                    isdRatio -> PERCENT intlScheduledDepartures/total
+                    DISPLAY STATISTICS
+
+                CASE 6:
+                    domesticCharterArrivals -> 0
+                    FOR int i = 0 to flights.length CHANGEBY 1
+                        IF flights[i].getDomesticIntl == "Domestic"
+                            IF flights[i].getFlightType == "Charter"
+                                IF flights[i].getArrivalDeparture == "Arrival"
+                                    INCREMENT domesticCharterArrivals
+                                ENDIF
+                            ENDIF
+                        ENDIF
+                    ENDFOR
+
+                    dcaRatio -> PERCENT domesticCharterArrivals/total
+                    DISPLAY STATISTICS
+
+                CASE 7:
+                    PRINT "Exiting program..."
+                    shouldLoop -> false
+            
+            END SWITCH
+        END WHILE
+    END MAIN
+
+    METHOD: readFile
+    IMPORT: pFilename
+    EXPORT: FlightOperation[] flights
+    ASSERTION: reads file and exports flights array 
+    ALGORITHM:
+        line -> readLine
+        lineNum -> 0
+        WHILE line IS NOT null
+            FlightOperation flight -> processLine(line)
+            flights[lineNum] -> flight
+            line -> readLine
+            INCREMENT lineNum
+        ENDWHILE
+        return flights
+
+    METHOD: processLine
+    IMPORT: csvRow
+    EXPORT: FlightOperation outFlight
+    ASSERTION: processes a row and creates flight object
+    ALGORITHM:
+        data -> csvRow.split(",")
+        FlightOperation outFlight -> NEW FlightOperation
+        outFlight.setDate(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        outFlight.setFlightType(data[3]);
+        outFlight.setArrivalDeparture(data[4]);
+        outFlight.setDomesticIntl(data[5]);
+        outFlight.setFlightOpsCount(Integer.parseInt(data[6]));
+        return outFlight;
+
+    METHOD: countTotal
+    IMPORT: FlightOperation[] flights
+    EXPORT: int total
+    ASSERTION: counts total flight operations 
+    ALGORITHM:
+        int total -> 0
+        FOR int i = 0 to flights.length CHANGEBY 1
+            INCREMENT total
+        ENDFOR
+        return total
+
+    METHOD: countX
+    IMPORT: FlightOperation[] flights
+    EXPORT: int X 
+    ASSERTION: counts a type of flight
+    ALGORITHM:
+        int X -> 0
+        FOR int i = 0 to flights.length CHANGEBY 1
+            IF flights[i].getSOMETYPE == "SOME TYPE"
+                INCREMENT X 
+            ENDIF
+        ENDFOR
+    
+    METHOD: getPercent
+    IMPORT: int a, int b 
+    EXPORT: double percent 
+    ASSERTION: gets percentage of a by b
+    ALGORITHM:
+        percent -> round(value1/value2 * 100)
+        return percent
+
+    METHOD: round
+    IMPORT: int value, int places
+    EXPORT: double roundedVal
+    ASSERTION: gets rounded value given (decimal) places
+    ALGORITHM:
+        scale -> Math.pow(10, places)
+        roundedVal -> Math.round(value*scale)/scale
+        return roundedVal
+
+        
+
+
+
+
